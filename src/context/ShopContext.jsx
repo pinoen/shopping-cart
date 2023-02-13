@@ -23,11 +23,28 @@ const ShopContextProvider = ({ children }) => {
     setCart((prev) => ({ ...prev, [id]: prev[id] - 1 }));
   };
 
+  const updateManuallyItemCount = (newAmount, id) => {
+    setCart((prev) => ({ ...prev, [id]: newAmount }));
+  }
+
+  const getTotal = () => {
+    let totalAmount = 0;
+    for (const item in cart) {
+      if (cart[item] > 0) {
+        let data = PRODUCTS.find((product) => product.id === Number(item));
+        totalAmount += cart[item] * data.price;
+      }
+    }
+    return totalAmount;
+  };
+
   const data = {
     cart,
     setCart,
     addToCart,
-    removeFromCart
+    removeFromCart,
+    updateManuallyItemCount,
+    getTotal
   }
 
   return (
